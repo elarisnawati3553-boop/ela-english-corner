@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms Ela's Colour Spelling Game</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #fff0f5;
+  text-align: center;
+  padding: 15px;
+  color: #49334f;
+}
+.container {
+  background: white;
+  max-width: 500px;
+  margin: 25px auto;
+  padding: 25px;
+  border-radius: 25px;
+  box-shadow: 0 5px 20px #e5bfd3;
+}
+h1 { color: #d65a91; }
+.color-box {
+  width: 150px;
+  height: 150px;
+  border-radius: 25px;
+  margin: 25px auto;
+  border: 3px solid #eeeeee;
+}
+input {
+  padding: 13px;
+  font-size: 20px;
+  width: 75%;
+  border: 2px solid #ed9cbd;
+  border-radius: 12px;
+  text-align: center;
+}
+button {
+  background: #e875a5;
+  color: white;
+  border: none;
+  padding: 13px 22px;
+  margin: 10px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+#result {
+  font-size: 19px;
+  font-weight: bold;
+  min-height: 25px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>🌈 Ms Ela's Spelling Game 🌈</h1>
+<p>Look at the color and spell its name!</p>
+
+<h3 id="number">Question 1 of 10</h3>
+
+<div class="color-box" id="picture"></div>
+
+<input id="answer" placeholder="Type the spelling...">
+
+<br>
+<button onclick="checkAnswer()">Check Answer</button>
+<button onclick="nextQuestion()">Next ➜</button>
+
+<p id="result">You can do it! 💗</p>
+<h3 id="score">Score: 0</h3>
+</div>
+
+<script>
+const questions = [
+{color:"#FFFF00", word:"YELLOW"},
+{color:"#FF0000", word:"RED"},
+{color:"#FFFFFF", word:"WHITE"},
+{color:"#000000", word:"BLACK"},
+{color:"#008000", word:"GREEN"},
+{color:"#0000FF", word:"BLUE"},
+{color:"#FFC0CB", word:"PINK"},
+{color:"#800080", word:"PURPLE"},
+{color:"#A52A2A", word:"BROWN"},
+{color:"#FFA500", word:"ORANGE"}
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function showQuestion() {
+ document.getElementById("picture").style.backgroundColor =
+ questions[current].color;
+ document.getElementById("number").textContent =
+ "Question " + (current + 1) + " of 10";
+ document.getElementById("answer").value = "";
+ document.getElementById("result").textContent =
+ "What color is this?";
+ answered = false;
+}
+
+function checkAnswer() {
+ if(answered) return;
+
+ let answer = document.getElementById("answer").value.trim().toUpperCase();
+
+ if(answer === "") {
+ document.getElementById("result").textContent =
+ "Please type your answer!";
+ return;
+ }
+
+ if(answer === questions[current].word) {
+ score += 10;
+ document.getElementById("result").textContent =
+ "🎉 Excellent! Correct answer!";
+ answered = true;
+ } else {
+ document.getElementById("result").textContent =
+ "❌ Try again! You can do it!";
+ }
+
+ document.getElementById("score").textContent =
+ "Score: " + score;
+}
+
+function nextQuestion() {
+ if(!answered) {
+ document.getElementById("result").textContent =
+ "Answer correctly before moving on!";
+ return;
+ }
+
+ if(current < questions.length - 1) {
+ current++;
+ showQuestion();
+ } else {
+ document.getElementById("picture").style.backgroundColor = "#fff0f5";
+ document.getElementById("number").textContent = "Game Completed!";
+ document.getElementById("answer").style.display = "none";
+ document.getElementById("result").textContent =
+ "🏆 Amazing! You finished all 10 questions!";
+ }
+}
+
+showQuestion();
+</script>
+</body>
+</html>
